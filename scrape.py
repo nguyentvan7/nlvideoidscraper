@@ -14,10 +14,10 @@ def main():
     videoArray = json.load(open('array.json'))
     playlistId = "UU3tNpTOHsTnkmbwztCs30sA"
 
-    loadVideos()
-    pushToRepo()
+    loadVideos(API, videoDict, videoArray, playlistId)
+    pushToRepo(repoPath)
 
-def loadVideos():
+def loadVideos(API, videoDict, videoArray, playlistId):
     pageCount = 0
     pageToken = ""
     done = False
@@ -51,8 +51,7 @@ def loadVideos():
     with open("dict.json", "w") as v:
         json.dump(videoDict, v)
 
-def pushToRepo():
-    print(repoPath)
+def pushToRepo(repoPath):
     repo = Repo(repoPath)
     copy2("array.json", repoPath + "/videos.json")
     origin = repo.remote("origin")
