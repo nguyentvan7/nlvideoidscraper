@@ -15,7 +15,8 @@ def main():
     playlistId = "UU3tNpTOHsTnkmbwztCs30sA"
 
     loadVideos(API, videoDict, videoArray, playlistId)
-    pushToRepo(repoPath)
+    if repoPath != "":
+        pushToRepo(repoPath)
 
 def loadVideos(API, videoDict, videoArray, playlistId):
     pageCount = 0
