@@ -5,13 +5,17 @@ import requests
 from git import Repo
 from shutil import copy2
 
-load_dotenv()
-API = os.getenv('YOUTUBE-APIKEY')
-repoPath = os.getenv('REPOPATH')
+def main():
+    load_dotenv()
+    API = os.getenv('YOUTUBE-APIKEY')
+    repoPath = os.getenv('REPOPATH')
 
-videoDict = json.load(open('dict.json'))
-videoArray = json.load(open('array.json'))
-playlistId = "UU3tNpTOHsTnkmbwztCs30sA"
+    videoDict = json.load(open('dict.json'))
+    videoArray = json.load(open('array.json'))
+    playlistId = "UU3tNpTOHsTnkmbwztCs30sA"
+
+    loadVideos()
+    pushToRepo()
 
 def loadVideos():
     pageCount = 0
@@ -61,5 +65,5 @@ def pushToRepo():
             origin.push()
             break
 
-loadVideos()
-pushToRepo()
+if __name__ == "__main__":
+    main()
