@@ -1,0 +1,37 @@
+name: Update videos JSON and pushes to Github io site
+
+on:
+  schedule:
+    - cron: 0 0 * * *
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .env
+        run: |
+          printf 'YOUTUBE-APIKEY=%s'  ${{ secrets.YT_API_KEY }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: python scrape.py
+      - name: Checkout site
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.SITE_REPO }}
+          ssh-key: ${{ secrets.SITE_DEPLOY_KEY }}
+          path: site
+      - name: Move to site
+        run: |
+          cp array.json site/videos.json
+      - name: Make/push commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config pull.rebase false
+          git add videos.json
+          git commit --allow-empty -m "Update videos"
+          git push
+        working-directory: gh-pages
