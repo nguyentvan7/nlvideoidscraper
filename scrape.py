@@ -2,21 +2,21 @@ import os
 from dotenv import load_dotenv
 import json
 import requests
-from git import Repo
-from shutil import copy2
+# from git import Repo
+# from shutil import copy2
 
 def main():
     load_dotenv()
     API = os.getenv('YOUTUBE-APIKEY')
-    repoPath = os.getenv('REPOPATH')
+    # repoPath = os.getenv('REPOPATH')
 
     videoDict = json.load(open('dict.json'))
     videoArray = json.load(open('array.json'))
     playlistId = "UU3tNpTOHsTnkmbwztCs30sA"
 
     loadVideos(API, videoDict, videoArray, playlistId)
-    if repoPath != "":
-        pushToRepo(repoPath)
+    # if repoPath != "":
+    #     pushToRepo(repoPath)
 
 def loadVideos(API, videoDict, videoArray, playlistId):
     pageCount = 0
@@ -52,18 +52,18 @@ def loadVideos(API, videoDict, videoArray, playlistId):
     with open("dict.json", "w") as v:
         json.dump(videoDict, v)
 
-def pushToRepo(repoPath):
-    repo = Repo(repoPath)
-    copy2("array.json", repoPath + "/videos.json")
-    origin = repo.remote("origin")
-    origin.pull()
-    # Check if there are any changes first
-    for item in repo.index.diff(None):
-        if item.a_path == "videos.json":
-            repo.index.add(["videos.json"])
-            repo.index.commit("Update video array")
-            origin.push()
-            break
+# def pushToRepo(repoPath):
+#     repo = Repo(repoPath)
+#     copy2("array.json", repoPath + "/videos.json")
+#     origin = repo.remote("origin")
+#     origin.pull()
+#     # Check if there are any changes first
+#     for item in repo.index.diff(None):
+#         if item.a_path == "videos.json":
+#             repo.index.add(["videos.json"])
+#             repo.index.commit("Update video array")
+#             origin.push()
+#             break
 
 if __name__ == "__main__":
     main()
