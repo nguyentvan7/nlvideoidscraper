@@ -36,4 +36,4 @@ jobs:
           git add videos.json
           git commit --allow-empty -m "Update videos"
           git push
-        working-directory: gh-pages
+        working-directory: site
